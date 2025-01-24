@@ -4,16 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-    <nav class="score">
-        <h2>Puntuación</h2>
+    <nav class="score-container">
+        <div><h3 class="score">Score: 0</h3></div>        
     </nav>
-    <section class="enemies"><h2>Enemigos</h2></section>
-    <section class="player"><h2>Jugador</h2></section>
+    <section class="enemies-section">
+        <div class="enemies-container1">
+            <h6 class="life">10</h6>
+            <h6 class="atack">5</h6>
+            <h6 class="defense">5</h6>
+        </div>
+        <div class="enemies-container2">
+            <h6 class="life">10</h6>
+            <h6 class="atack">5</h6>
+            <h6 class="defense">5</h6>
+        </div>
+        <div class="enemies-container3">
+            <h6 class="life">10</h6>
+            <h6 class="atack">5</h6>
+            <h6 class="defense">5</h6>
+        </div>
+    </section>
+    <section class="player-section">
+        <div class="player-container">
+            <h6 class="life">50</h6>
+            <h6 class="atack">10</h6>
+            <h6 class="defense">25</h6>
+        </div>        
+    </section>
 
 
-    <script src="index.js"></script>
+    <script src="src/index.js"></script>
+    <script src="src/player.js"></script>
+    <script src="src/enemies.js"></script>
 </body>
 </html>
