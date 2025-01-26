@@ -1,5 +1,0 @@
-class Enemies {
-    constructor(parameters) {
-        
-    }
-}
