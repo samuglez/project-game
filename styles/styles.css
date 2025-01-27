@@ -40,3 +40,19 @@ body {
     align-items: center;
     justify-content: center;
 }
+.end-screen {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.end-screen button{
+    width: 150px;
+    height: 50px;
+    border-radius: 50%;
+    background-color:#eedf08 ;
+    font-weight: bold;
+    border: solid 3px;
+    cursor: pointer;
+}
