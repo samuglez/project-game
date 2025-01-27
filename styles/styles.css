@@ -1,6 +1,7 @@
 body {
     margin:0;
     padding: 0;
+    overflow: hidden;
 }
 .start-screen {
     display: flex;
@@ -23,17 +24,18 @@ body {
 }
 .game-screen{
     display: none;
-}
-.score-timer-container{
-    display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 10px;
-    background-color: beige;
+    background-image: url("images/fondo-cielo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
 }
 .balloon {
     position: absolute;
-    width: 50px;
-    height: 70px;
+    width: 70px;
+    height: 90px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;

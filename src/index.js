@@ -15,7 +15,7 @@ let timerInterval;
 function startGame() {
     startButton.addEventListener("click",()=> {
         startScreen.style.display = "none";
-        gameScreen.style.display = "block";
+        gameScreen.style.display = "flex";
         score = 0
         timeLeft = 60
         updateScore()
