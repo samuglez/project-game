@@ -2,22 +2,26 @@ body {
     margin:0;
     padding: 0;
     overflow: hidden;
+    cursor: url("images/dardo3.png"), auto;
 }
 .start-screen {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
     
 }
 .start-screen button{
     width: 150px;
     height: 50px;
-    border-radius: 50%;
+    border-radius: 50px;
     background-color:#eedf08 ;
     font-weight: bold;
     border: solid 3px;
-    cursor: pointer;
+    cursor: url("images/dardo3.png"), auto;
+    margin-bottom: 100px;
 }
 .start-screen button:hover{
     background-color: bisque;
@@ -37,7 +41,7 @@ body {
     width: 70px;
     height: 90px;
     border-radius: 50%;
-    cursor: pointer;
+    cursor: url("images/dardo3.png"), auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,14 +51,42 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
     
 }
 .end-screen button{
     width: 150px;
     height: 50px;
-    border-radius: 50%;
+    border-radius: 50px;
     background-color:#eedf08 ;
     font-weight: bold;
     border: solid 3px;
-    cursor: pointer;
+    cursor: url("images/dardo3.png"), auto;
+    margin-bottom: 100px;
+}
+.end-screen button:hover{
+    background-color: bisque;
+}
+#score, #timer {
+    position: absolute;
+    justify-content: space-around;
+    top: 10px;
+    font-size: 20px;
+    color: #333;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+#timer {
+    right: 300px;
+    left: auto;
+}
+.end-message-won{
+    display: none;
+}
+.end-message-lose{
+    display: none;
 }
