@@ -47,6 +47,15 @@ body {
     align-items: center;
     justify-content: center;
 }
+.duck {
+    position: absolute;
+    width: 70px;
+    height: 90px;
+    cursor: url("images/dardo3.png"), auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .end-screen {
     display: none;
     flex-direction: column;

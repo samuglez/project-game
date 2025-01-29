@@ -16,8 +16,12 @@ let timeLeft = 60;
 let timerInterval;
 let spawnInterval;
 let extraBalloons;
-const pop= new Audio("styles/sounds/pop.mp3")
+let duck;
+const pop = new Audio("styles/sounds/pop.mp3")
 const startSound = new Audio ("styles/sounds/startSound.mp3")
+const duckSound = new Audio ("styles/sounds/duck.mp3")
+const winSound = new Audio ("styles/sounds/claps.mp3")
+const loseSound = new Audio ("styles/sounds/lose.mp3")
 
 function startGame() {
     startButton.addEventListener("click",()=> {
@@ -40,8 +44,12 @@ function startGame() {
             if (timeLeft <= 0) {
                 endGame(false);
             }
+            if(timeLeft === 58){
+                createDuck()
+            }
         }, 1000);
         spawnBalloons();
+        
     });
 }
 startGame();
@@ -49,6 +57,40 @@ function spawnBalloons() {
     for (let i = 0; i < 10; i++) {
         createBalloons();
     }
+}
+function createDuck() {
+    duck = document.createElement("div");
+    duck.className = "duck"
+    duck.style.backgroundImage = "url('styles/images/duck.png"
+    duck.style.backgroundSize = "contain";
+    duck.style.backgroundRepeat = "no-repeat";
+    duck.style.backgroundPosition = "center";
+    duck.style.width = "100px";
+    duck.style.height = "120px";
+    duck.style.position = "absolute";
+    duck.style.top = `${Math.random() * 80}vh`;
+    duck.style.right = "0";
+    gameScreen.appendChild(duck)
+    duck.addEventListener("click",function () {
+        duckSound.play();
+        score --;
+        updateScore()
+    })
+    moveDuck()
+}
+let duckPosition = window.innerWidth;
+const duckSpeed = 2;
+function moveDuck() {
+    const moveInterval = setInterval(() => {
+        if (duck) {
+            duckPosition -= duckSpeed;
+            duck.style.left = `${duckPosition}px`;
+            if (duckPosition < -100) {
+                duckPosition = window.innerWidth;
+                duck.style.top = `${Math.random() * 80}vh`;
+            }
+        }
+    }, 16);
 }
 function createBalloons() {
     const balloon = document.createElement("div");
@@ -100,13 +142,15 @@ function endGame() {
         endMessageWon.style.display = "flex";
         endMessageWon.textContent = `You Win! 🎉`;
         endMessageWonScore.textContent = ` Score: ${score}`
-       
+        winSound.play()       
     }else{
         endMessageLose.style.display = "flex";
         endMessageLose.textContent = `Game Over! 😢`;
         endMessageLoseScore.textContent = ` Score: ${score}`
+        loseSound.play()
         
     }
+    
     startSound.loop = false
     startSound.pause()
 }
