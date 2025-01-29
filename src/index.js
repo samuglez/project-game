@@ -5,7 +5,9 @@ const playScore = document.getElementById("score");
 const playTimer = document.getElementById("timer");
 const endScreen = document.getElementById("end-screen");
 const endMessageWon = document.getElementById("end-message-won");
+const endMessageWonScore = document.getElementById("end-message-won-score");
 const endMessageLose = document.getElementById("end-message-lose");
+const endMessageLoseScore = document.getElementById("end-message-lose-score");
 const restartButton = document.getElementById("btn-playAgain");
 const balloons = ["red", "green", "blue", "purple", "black"];
 const balloonLives = {red:5, green:10, blue:15, purple:20, black:25};
@@ -14,15 +16,16 @@ let timeLeft = 60;
 let timerInterval;
 let spawnInterval;
 let extraBalloons;
-
-
+const pop= new Audio("styles/sounds/pop.mp3")
+const startSound = new Audio ("styles/sounds/startSound.mp3")
 
 function startGame() {
     startButton.addEventListener("click",()=> {
         startScreen.style.display = "none";
         gameScreen.style.display = "flex";
-        score = 0
-        timeLeft = 60
+        
+        startSound.loop = true
+        startSound.play()
         updateScore()
         updateTimer()
         timerInterval = setInterval(() => {
@@ -38,21 +41,15 @@ function startGame() {
                 endGame(false);
             }
         }, 1000);
-        
         spawnBalloons();
-        
-
-    
     });
 }
 startGame();
 function spawnBalloons() {
     for (let i = 0; i < 10; i++) {
         createBalloons();
-        
     }
 }
-
 function createBalloons() {
     const balloon = document.createElement("div");
     const color = balloons[Math.floor(Math.random() * balloons.length)];
@@ -70,7 +67,6 @@ function createBalloons() {
     balloon.onclick = () => popBalloon(balloon);
     gameScreen.appendChild(balloon);
 }
-
 function popBalloon(balloon) {
     const popSound = new Audio("styles/sounds/dardo.mp4");
     popSound.play();
@@ -79,14 +75,14 @@ function popBalloon(balloon) {
         life --;
         balloon.dataset.life = life
     }else {
-        
         balloon.remove();
+       pop.play()
     }
     score++;
         updateScore();
     if(document.querySelectorAll(".balloon").length === 0){
         endGame(true)
-
+        
     }
 }
 function updateScore(){
@@ -95,7 +91,6 @@ function updateScore(){
 function updateTimer(){
     playTimer.textContent = `Timer: ${timeLeft}`
 }
-
 function endGame() {
     clearInterval(timerInterval);
     clearInterval(spawnInterval);
@@ -103,15 +98,19 @@ function endGame() {
     endScreen.style.display = "flex";
     if(document.querySelectorAll(".balloon").length === 0){
         endMessageWon.style.display = "flex";
-        endMessageWon.textContent = `You Win! 🎉 Score: ${score}`;
-        
+        endMessageWon.textContent = `You Win! 🎉`;
+        endMessageWonScore.textContent = ` Score: ${score}`
+       
     }else{
         endMessageLose.style.display = "flex";
-        endMessageLose.textContent = `Game Over! 😢 Score: ${score}`;
+        endMessageLose.textContent = `Game Over! 😢`;
+        endMessageLoseScore.textContent = ` Score: ${score}`
+        
     }
+    startSound.loop = false
+    startSound.pause()
 }
 function restartGame() {
-    
     endScreen.style.display = "none";
     startScreen.style.display = "flex";
     score = 0;

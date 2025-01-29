@@ -3,6 +3,7 @@ body {
     padding: 0;
     overflow: hidden;
     cursor: url("images/dardo3.png"), auto;
+    user-select: none;
 }
 .start-screen {
     display: flex;
@@ -89,4 +90,10 @@ body {
 }
 .end-message-lose{
     display: none;
+}
+.end{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
