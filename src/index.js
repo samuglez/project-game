@@ -17,6 +17,7 @@ let timerInterval;
 let spawnInterval;
 let extraBalloons;
 let duck;
+let duckMoveInterval;
 const pop = new Audio("styles/sounds/pop.mp3")
 const startSound = new Audio ("styles/sounds/startSound.mp3")
 const duckSound = new Audio ("styles/sounds/duck.mp3")
@@ -59,6 +60,9 @@ function spawnBalloons() {
     }
 }
 function createDuck() {
+    if (duck) {
+        duck.remove()
+    }
     duck = document.createElement("div");
     duck.className = "duck"
     duck.style.backgroundImage = "url('styles/images/duck.png"
@@ -69,21 +73,25 @@ function createDuck() {
     duck.style.height = "120px";
     duck.style.position = "absolute";
     duck.style.top = `${Math.random() * 80}vh`;
-    duck.style.right = "0";
+    duck.style.left = "100vw";
+    duckPosition = window.innerWidth;
     gameScreen.appendChild(duck)
     duck.addEventListener("click",function () {
         duckSound.play();
         score --;
         updateScore()
     })
+    setTimeout(moveDuck, 300);
     moveDuck()
 }
 let duckPosition = window.innerWidth;
 const duckSpeed = 2;
 function moveDuck() {
-    const moveInterval = setInterval(() => {
+    if (!duck) return;
+    clearInterval(duckMoveInterval);
+    duckMoveInterval = setInterval(() => {
         if (duck) {
-            duckPosition -= duckSpeed;
+            duckPosition -= duckSpeed; 
             duck.style.left = `${duckPosition}px`;
             if (duckPosition < -100) {
                 duckPosition = window.innerWidth;
@@ -118,7 +126,7 @@ function popBalloon(balloon) {
         balloon.dataset.life = life
     }else {
         balloon.remove();
-       pop.play()
+    pop.play()
     }
     score++;
         updateScore();
@@ -138,22 +146,49 @@ function endGame() {
     clearInterval(spawnInterval);
     gameScreen.style.display = "none";
     endScreen.style.display = "flex";
+    saveScore(score);
+    showRanking();
+    endMessageWon.style.display = "none";
+    endMessageWonScore.style.display = "none";
+    endMessageLose.style.display = "none";
+    endMessageLoseScore.style.display = "none";
     if(document.querySelectorAll(".balloon").length === 0){
         endMessageWon.style.display = "flex";
+        endMessageWonScore.style.display = "flex";
         endMessageWon.textContent = `You Win! 🎉`;
         endMessageWonScore.textContent = ` Score: ${score}`
         winSound.play()       
     }else{
         endMessageLose.style.display = "flex";
+        endMessageLoseScore.style.display = "flex";
         endMessageLose.textContent = `Game Over! 😢`;
         endMessageLoseScore.textContent = ` Score: ${score}`
         loseSound.play()
-        
     }
-    
     startSound.loop = false
     startSound.pause()
 }
+function saveScore(newScore) {
+    let scores = JSON.parse(localStorage.getItem("ranking")) || [];
+    if (scores.length >= 5) {
+        scores = [];
+    }
+    scores.push(newScore);
+    scores.sort((a, b) => b - a);
+    scores = scores.slice(0, 5);
+    localStorage.setItem("ranking", JSON.stringify(scores));
+}
+function showRanking() {
+    let scores = JSON.parse(localStorage.getItem("ranking")) || [];
+    let rankingContainer = document.getElementById("ranking-list");
+    rankingContainer.innerHTML = "<h2>🏆 Ranking</h2>";
+    scores.forEach((score, index) => {
+        let scoreElement = document.createElement("p");
+        scoreElement.textContent = `${index + 1}. ${score} pts`;
+        rankingContainer.appendChild(scoreElement);
+    });
+}
+
 function restartGame() {
     endScreen.style.display = "none";
     startScreen.style.display = "flex";
@@ -162,8 +197,14 @@ function restartGame() {
     extraBalloons= false;
     clearInterval(timerInterval);
     clearInterval(spawnInterval);
+    clearInterval(duckMoveInterval);
     const balloons = document.querySelectorAll(".balloon");
     balloons.forEach(balloon => balloon.remove());
+    if (duck) {
+        duck.remove();
+        duck = null;
+    }
+    duckPosition = window.innerWidth;
     playScore.textContent = "Score: 0";
     playTimer.textContent = "Timer: 60";
 }
